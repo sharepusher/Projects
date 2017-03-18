@@ -1,2 +1,2 @@
 # Codility
-my codility solutions 
+My python solutions to codility problems 
