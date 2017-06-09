@@ -1,0 +1,7 @@
+## Tiny URL implemented by Python Django
+1) prepare virtualenv
+2) pip install django
+3) pip install postgres
+4) pip install n
+
+
