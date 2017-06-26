@@ -1,0 +1,42 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>TinyURL</title>
+        <!-- Latest compiled and minified CSS -->
+        <link href="{% static 'bootstrap.min.css' %}" rel="stylesheet">
+        <link href="{% static 'style.css' %}" rel="stylesheet">
+    </head>
+    <body>
+        <nav class="navbar navbar-default navbar-static-top text-center">
+          <div>
+            <a href="/"><img src="{% static "images/tinyurl-login.jpg" %}"></a>
+          </div>
+          <div class="row">
+            {% if user.is_authenticated %}
+                <a class="navbar-text navbar-left"
+                   href="{% url 'profile' user.username %}"><sapn class="badge">{{ user.username }}</span></a>
+                <a class="navbar-text navbar-left"
+                   href="{% url 'logout' %}"><span class="label label-default">logout</span></a>
+            {% else %}
+                <a class="navbar-text navbar-left"
+                   href="{% url 'login' %}"><span class="label label-primary">login</span></a>
+            {% endif %}
+          </div>
+        </nav>
+            
+        {% block content %}
+        {% endblock %}
+    </body>
+    
+    <footer>
+        <nav class="navbar navbar-default navbar-fixed-bottom">
+          <div container-fluid>
+            <p class="navbar-text navbar-left">Posted by: ZWL.Inc</p>
+            <p class="navbar-text navbar-left">Contact information: <a href="mailto:agiledavid@hotmail.com">agiledavid@hotmail.com</a>.</p>
+          </div>
+        </nav>
+    </footer>
+</html>
