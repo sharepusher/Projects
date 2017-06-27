@@ -1,0 +1,15 @@
+## Tiny URL implemented by Nginx(Load balance) + Gunicorn(WSGI HTTP server) +  Django(Application server) + postgres(DB) + redis(Cache)
+LoadBalance + Http Server
+1) install nginx: brew install nginx(1.8.0)
+2) install Gunicorn: sudo pip install gunicorn(17.7.1)
+3) install gevent: sudo pip install gevent(1.2.2)
+
+Application Server + DB + Cache
+1) prepare virtualenv and python(2.7.10)
+2) pip install django(2.7.10)
+3) pip install postgres(9.4.5)
+4) pip install redis(3.2.9)
+5) install redis-server manually
+6) pip install django-redis
+
+
