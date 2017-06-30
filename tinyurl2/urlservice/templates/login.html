@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+
+<div class="row">
+  <div class="col-md-5 col-md-offset-1">
+    <div class="container-fluid">
+      <h1><spa> Sign in </span></h1>
+    </div>
+    <div class="row">
+      <div class="col-xs-6 col-md-4">
+      <form class="navbar-form navbar-left" method="post" action=".">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">Login</button>
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+{% endblock %}
+
+

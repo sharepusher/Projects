@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+	<main class="container" role="main">
+	    <div class="col-md-6 col-md-offset-3">
+        	<h2>Please input your longURL</h2>
+                <form action="encode/" method="post">
+                    {% csrf_token %}
+		    <input type="text" name="long_url" />
+                    <input type="submit" value="Submit"/>
+                </form>
+	    </div>
+	</main>
+
+{% endblock %}
+

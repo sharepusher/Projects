@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+
+<h1> {{ username }} </h1><br>
+
+    <div class="row">
+    {% for tinyurl in tinyurls %}
+        <div class="col-md-4">
+          <div class="tinyurl panel panel-default">
+            <a href="/{{tinyurl.id}}/">
+              <div class="panel-heading">
+                  <h3 class="panel-title">{{ tinyurl.long_url}}</h3>
+                  <h3 class="panel-title">{{ tinyurl.short_url}}</h3>
+              </div>
+            </a>
+          </div>
+        </div>
+    {% endfor %}
+    </div>
+
+
+{% endblock %}

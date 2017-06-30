@@ -12,4 +12,7 @@ Application Server + DB + Cache
 5) install redis-server manually
 6) pip install django-redis
 
+## Reference
+https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-centos-7#configure-nginx-to-proxy-pass-to-gunicorn
+
 
