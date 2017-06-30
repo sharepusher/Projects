@@ -14,5 +14,9 @@ Application Server + DB + Cache
 
 ## Reference
 https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-centos-7#configure-nginx-to-proxy-pass-to-gunicorn
+http://michal.karzynski.pl/blog/2013/06/09/django-nginx-gunicorn-virtualenv-supervisor/
+http://www.isaced.com/post-248.html
+https://foofish.net/django-deploy.html
+https://theviralcode.com/2017/05/09/deploy-django-nginx-gunicorn-ubuntu/
 
 
