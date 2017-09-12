@@ -1,0 +1,18 @@
+1. Kafka provide simple embeded performance test tool, but we have to download the source code and compile accordingly
+   1) download kafka source code from http://kafka.apache.org/downloads or github;
+   2) java( >1.8) and gradle (>2.0) required
+   3) compile according to readme.
+      cd kafka_source_dir; gradle; ./gradlew jar; ./gradlew releaseTarGz -x signArchives (sudo may be required in the process)
+   4) get the release file inside './core/build/distributions/'
+2. Run performance test according to linkedin blog
+
+
+# Reference
+https://engineering.linkedin.com/kafka/benchmarking-apache-kafka-2-million-writes-second-three-cheap-machines
+https://db-blog.web.cern.ch/blog/prasanth-kothuri/2016-10-benchmarking-apache-kafka-openstack-vms
+https://hackernoon.com/benchmarking-kafka-performance-part-1-write-throughput-7c7a76ab7db1
+http://activisiongamescience.github.io/2016/06/15/Kafka-Client-Benchmarking/
+https://www.autoletics.com/posts/iterative-performance-benchmarking-of-apache-kafka-part-1
+
+
+
