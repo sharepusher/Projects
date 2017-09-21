@@ -1,0 +1,17 @@
+## Short description
+# broker扩展新磁盘后如何平衡原有partition
+
+
+## Procedure
+# 1. server.properties "log.dirs"添加新的硬盘
+# 2. 搬移partitions目录并修改checkpoint文件
+#    1) 查看三个checkpoint文件：
+#       log-start-offset-checkpoint - log end checkpoint
+#       recovery-point-offset-checkpoint - cleaner checkpoint 
+#       replication-offset-checkpoint - last commited offset
+#       每个文件包含三个部分，版本信息（version number），
+#    2）
+#     
+
+
+
