@@ -1,7 +1,10 @@
+## Django
 # postgresql in Django
 http://www.marinamele.com/taskbuster-django-tutorial/install-and-configure-posgresql-for-django
-
 # Django and gunicorn 
 https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-django-with-postgres-nginx-and-gunicorn
+# Mongodb in Django
+http://docs.mongoengine.org/tutorial.html
+https://www.ibm.com/developerworks/library/os-django-mongo/index.html
 
 
