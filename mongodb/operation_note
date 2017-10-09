@@ -1,0 +1,5 @@
+Overview collection:
+Total document maintained in 3 days: 28,743,351 (subdocument is limited to 500 by each and slice)
+Total document after unwind: 661,958,860  
+
+
