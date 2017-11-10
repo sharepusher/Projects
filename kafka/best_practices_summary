@@ -1,6 +1,7 @@
 # References
 https://community.hortonworks.com/articles/80813/kafka-best-practices-1.html
 https://www.psc.edu/index.php/networking/641-tcp-tune
+https://www.cloudera.com/documentation/kafka/latest/topics/kafka_performance.html
 
 1. JVM Params
 location - /usr/local/kafka/bin/kafka-server-start.sh
