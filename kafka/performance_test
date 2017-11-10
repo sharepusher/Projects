@@ -25,6 +25,8 @@ https://hackernoon.com/benchmarking-kafka-performance-part-1-write-throughput-7c
 http://activisiongamescience.github.io/2016/06/15/Kafka-Client-Benchmarking/
 https://www.autoletics.com/posts/iterative-performance-benchmarking-of-apache-kafka-part-1
 http://www.infoq.com/cn/articles/kafka-analysis-part-5
+# Kafka 0.10 Compression benchmark
+http://blog.yaorenjie.com/2017/01/03/Kafka-0-10-Compression-Benchmark/
 # Gbit/s => MB/s
 https://www.gbmb.org/gbps-to-mbs
 # dd test disk I/O performance
