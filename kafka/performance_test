@@ -28,6 +28,8 @@ https://www.autoletics.com/posts/iterative-performance-benchmarking-of-apache-ka
 http://www.infoq.com/cn/articles/kafka-analysis-part-5
 http://mrafayaleem.com/2016/03/31/apache-kafka-producer-benchmarks/
 https://liveramp.com/engineering/kafka-0-8-producer-performance-2/
+https://www.autoletics.com/posts/quick-performance-hotspot-analysis-apache-kafka
+https://blog.talentica.com/2016/11/30/kafka-benchmarking/
 # Kafka 0.10 Compression benchmark
 http://blog.yaorenjie.com/2017/01/03/Kafka-0-10-Compression-Benchmark/
 # Gbit/s => MB/s
