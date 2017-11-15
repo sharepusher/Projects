@@ -1,0 +1,15 @@
+## Reference
+# https://www.robustperception.io/monitoring-kafka-with-prometheus
+
+# Kafka Manager
+1) open JMX port of kafka
+2) download and configure kafka manager from github
+3) easy to install and configure but ugly
+
+# Grafana + Prometheus
+key - getting metrics from java application
+1) download JMX exporter and the kafka config file for prometheus
+2) restart kafka with JMX reporter running as a java agent
+3) setup Prometheus server
+4) load the kafka overview dashboard from grafana.net into your Grafana to the console.  
+
