@@ -1,4 +1,4 @@
-1. replace two services occupied around 10G memory 5 CPU(writing msg to alilog) with kafka cost only 2G memory and 1 CPU
-2. replace 1 service
-
+1. zombie statistic
+1) replace two services occupied around 10G memory 5 CPU(writing msg to alilog) with kafka cost only 2G memory and 1 CPU
+2) periodically statistic(delay one or two hours) become almost real-time statistic
 
