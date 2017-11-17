@@ -20,6 +20,7 @@ dd if=/dev/zero of=testdisk bs=1G count=1 oflag=dsync
 
 # Reference
 # Kafka client performance
+https://gist.github.com/jkreps/c7ddb4041ef62a900e6c
 https://engineering.linkedin.com/kafka/benchmarking-apache-kafka-2-million-writes-second-three-cheap-machines
 https://db-blog.web.cern.ch/blog/prasanth-kothuri/2016-10-benchmarking-apache-kafka-openstack-vms
 https://hackernoon.com/benchmarking-kafka-performance-part-1-write-throughput-7c7a76ab7db1
