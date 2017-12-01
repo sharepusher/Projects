@@ -1,0 +1,22 @@
+## Reference:
+https://www.mongodb.com/blog/post/whats-new-mongodb-30-part-3-performance-efficiency-gains-new-storage-architecture
+
+## Explanation
+WiredTiger scales on modern, multi-CPU architectures.
+Using a variety of programming techniques such as hazard pointers, lock-free algorithm, fast latching and message passing.
+WiredTiger performs more workr per CPU core than alternative engines.
+To minimize on-disk overhead and I/O, WiredIger uses compact file formats, and optionally, compression.
+# advantages
+low storage costs; greater hardware utilization; more predictable performance, especially by reduing query latency in 95th and 99th percentile.
+Between 7x and 10x Greater write performance improvement for most write-intensive application.
+# upgrade
+non-disruptive for existing replica set deployments; 100% compatible; zero downtime through a rolling upgrade of the MongoDB replica set.
+
+# performance
+Write performance: 
+    WiredTiger provide Document-level concurrency control; mmapv1 is collection-level concurrency control, so the former is better.
+Read performance: both of them excelllent.
+Compression support: mmapv1 do not support.
+Query/Secondary/Replication/Sharding/Security both them supported.
+
+
