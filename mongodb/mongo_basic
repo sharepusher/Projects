@@ -1,0 +1,9 @@
+1. default sotrage engine: WiredTiger - Provide collection level cocurrency; and compression, save disk; 
+2. Compression: with wired-tiger, compression for both collection and index. 
+   Compression minimize storage use at the expense of additional CPU.
+   By default, WiredTiger uses block compression with SNAPPY library for all collections and prefix compression for all indexes.
+   "zlib" is also available for compression, which is an abstraction of the DEFLATE compression algorithm(an LZ77 variant that uses Huffman coding).
+   Zlib is very common on many software, and is the basis for the gzip file compression.
+   Compression can be set on a per-collection and pre-index basis during collection and index creation.
+
+
