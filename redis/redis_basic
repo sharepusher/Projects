@@ -56,5 +56,16 @@ class Global(object):
         except:
             Log.error('@get_xxx_ratecodes failed to compare interval time:%s' % traceback.format_exc())
         return codes
+    @classmethod
+    def record_xxx_codes(cls, xxx):
+       current_time = int(time.time())
+       try:
+           redis_key = cls.REDIS_KEY_CODES % (xxx)
+           cls.redis.hset(redis_key, self.sp_rate_code, current_time)
+           cls.redis.expire(redis_key, config.CODE_XXX_EXPIRE)
+           Log.info('@record_xxx_codes:%s' % (current_time))
+       except:
+           Log.error('Redis records codes error %s' % traceback.format_exc())
 
-
+if __name__ == "__main__":
+    pass
