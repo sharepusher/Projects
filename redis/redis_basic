@@ -1,0 +1,60 @@
+import gc
+import os
+import redis
+import ujson as json
+import traceback
+import config
+import time
+from public.logger import Log
+
+class Global(object):
+    # redis connection pool
+    redis = None
+    """:type: redis.Redis"""
+    redis_response = None
+    """:type: redis.Redis"""
+    # noroom_ratecodes
+    codes = set()
+    REDIS_KEY_CODES = "xxx:xxx:xxx:codes:%s_%s_%s"
+    @classmethod
+    def init(cls):
+        try:
+            redis_pool = redis.ConnectionPool(host=config.CODIS_SERVER_HOST, port=config.CODIS_SERVER_PORT)
+            cls.redis = redis.Redis(connection_pool=redis_pool)
+            # response_redis_pool = redis.ConnectionPool(host=config.CODIS_CACHE_RESPONSE_HOST, port=config.CODIS_CACHE_RESPONSE_PORT)
+            cls.redis_response = redis.Redis(host=config.CODIS_CACHE_RESPONSE_HOST, port=config.CODIS_CACHE_RESPONSE_PORT)
+            return True
+        except:
+            return False
+
+    @classmethod
+    def get_xxx_codes(cls, redis_key, interval=None):
+        """
+        get xxx codes from codis
+        Args:
+            redis_key:
+            interval: time(minutes) range to query
+        Returns: data set
+        """
+        if not interval:
+            interval = config.RECENT_MINUTES
+        codes = set()
+        try:
+            result = cls.redis.hgetall(redis_key)
+            #Log.debug('@get_xxx_codes hgetall key - %s' % redis_key)
+        except:
+            #Log.error('@get_xxx_codes failed to hgetall:%s' % traceback.format_exc())
+            return codes
+        if not result:
+            return ratecodes
+        #Log.info('@get_noroom_ratecodes redis result is available, key - %s' % redis_key)
+        current_time = int(time.time())
+        interval = 60*interval
+        try:
+            # only remain the code timestamp less than interval (not included)
+            codes = set([xxx_code for xxx_code, create_time in result.iteritems() if current_time-int(create_time) < interval])
+        except:
+            Log.error('@get_xxx_ratecodes failed to compare interval time:%s' % traceback.format_exc())
+        return codes
+
+
