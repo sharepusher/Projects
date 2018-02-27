@@ -1,3 +1,5 @@
+## Redis basic operation samples
+
 import gc
 import os
 import redis
@@ -47,7 +49,7 @@ class Global(object):
             return codes
         if not result:
             return ratecodes
-        #Log.info('@get_noroom_ratecodes redis result is available, key - %s' % redis_key)
+        #Log.info('@get_codes redis result is available, key - %s' % redis_key)
         current_time = int(time.time())
         interval = 60*interval
         try:
@@ -66,6 +68,33 @@ class Global(object):
            Log.info('@record_xxx_codes:%s' % (current_time))
        except:
            Log.error('Redis records codes error %s' % traceback.format_exc())
+
+class Coder(object):
+    logger = Log
+
+    def __init__(self):
+        pass
+
+    @classmethod
+    def filter_xxx_result(cls, result, rtype, redis_key):
+        # @result: list of dict
+        codes = Redis.get_xxx_codes(redis_key)
+        rates = result[rtype]
+        if not rates or not codes:
+            return
+        cls.logger.info('@filter_xxx_result  rates:%s' % (rates))
+        try:
+            cls.logger.debug('@filter_xxx_result len:%d; codess:%s' % (len(codes),codes))
+            cls.logger.info('@filter_xxx_result rates len:%d; valid rates len:%d' % (len(rates), len(codes)))
+            result[rtype] = filter(lambda rate: rate.get(Const.rcode) not in codes, rates)
+            cls.logger.info('@filter_xxx_result filtered rates len:%d' % (len(result[rtype])))
+            cls.logger.debug('@filter_xxx_result filtered rates len:%d, filtered rates:%s' % (len(result[rtype]), result[rtype]))
+        except:
+            cls.logger.error('@filter_xxx_result failed to filter %s result:%s' % (rtype, traceback.format_exc()))
+            cls.logger.error('@filter_xxx_result rates=%s' % rates)
+        return
+
+
 
 if __name__ == "__main__":
     pass
