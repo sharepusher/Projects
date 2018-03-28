@@ -1,0 +1,36 @@
+## Reference 
+https://www.confluent.io/blog/how-to-choose-the-number-of-topicspartitions-in-a-kafka-cluster/
+http://www.allprogrammingtutorials.com/tutorials/adding-partitions-to-topic-in-apache-kafka.php
+https://cwiki.apache.org/confluence/display/KAFKA/Replication+tools#Replicationtools-4.ReassignPartitionsTool
+
+## Solution
+Apache Kafka provides us with alter command to change Topic behaviour and add/modify configurations. 
+We will be using alter command to add more partitions to an existing Topic.
+Here is the command to increase the partitions count from 2 to 3 for topic 'my-topic' -
+
+./bin/kafka-topics.sh --alter --zookeeper localhost:2181 --topic my-topic --partitions 3
+ 
+You can verify whether partitions have been increased by using describe command as follows - 
+
+./bin/kafka-topics.sh --describe --zookeeper localhost:2181 --topic my-topic
+
+# Command output
+Topic:my-topic	PartitionCount:3		ReplicationFactor:1	Configs:
+	Topic: my-topic	Partition: 0		Leader: 0	Replicas: 0	Isr: 0
+	Topic: my-topic	Partition: 1		Leader: 0	Replicas: 0	Isr: 0
+	Topic: my-topic	Partition: 2		Leader: 0	Replicas: 0	Isr: 0
+ 
+
+Note: While Kafka allows us to add more partitions, 
+it is NOT possible to decrease number of partitions of a Topic. In order to achieve this, you need to delete and re-create your Topic.
+
+
+## Advise
+Bsically, you determine the number of partitions based on a future target throughput, say for one or two years later. 
+1) More Partitions Requires More Open File Handles
+2) More Partitions May Increase Unavailability
+3) More Partitions May Increase End-to-end Latency
+   As a rule of thumb, if you care about latency, 
+   it’s probably a good idea to limit the number of partitions per broker to 100 x b x r, where b is the number of brokers in a Kafka cluster and r is the replication factor.
+4) More Partitions May Require More Memory In the Client
+
