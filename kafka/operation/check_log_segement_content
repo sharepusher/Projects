@@ -1,0 +1,11 @@
+# Kafka brokers ship with the DumpLogSegment tool, which allows you to look at a partition segment in the filesystem and examine its contents.
+It will show you the offset, checksum, magic byte, size, and compression codec for each message.
+bin/kafka-run-class.sh kafka.tools.DumpLogSegments --files 000000000.log --print-data-log 
+
+It will show you the offset, checksum, magic byte, size, and compression codec for each message.
+
+If you choose the --deep-iteration parameter, it will show you information about
+messages compressed inside the wrapper messages.
+bin/kafka-run-class.sh kafka.tools.DumpLogSegments --files 000000000.log --print-data-log --deep-iteration | more
+
+
