@@ -23,4 +23,10 @@ mount noatime;data=writeback nobh 
 5. readahead
 blockdev  --setra 2048  on vdb and vdc
 
+6. log timestamp, it will impact the retention time! 
+createtime vs appendtime
+default log will record createtime(the message was sent by producer).
+The append time records the message arrived in broker.
+message.timestamp.type - This topic level configuration defines the type of timestamp in the messages of a topic. 
+The valid values are CreateTime or LogAppendTime.
 
