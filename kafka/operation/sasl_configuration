@@ -1,0 +1,9 @@
+## Reference
+https://blog.csdn.net/skymouse2002/article/details/79931371
+
+1) SSL is a little bit complicated and may impact performance, therefore, SASL is an altanative.
+
+2) the configuration mainly includes three parts: zookeeper; broker; and clients(producer and consumer)
+
+ 
+
