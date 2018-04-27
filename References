@@ -8,3 +8,17 @@ http://docs.mongoengine.org/tutorial.html
 https://www.ibm.com/developerworks/library/os-django-mongo/index.html
 
 
+## Vault - key and security management
+https://linoxide.com/how-tos/secure-secret-store-vault/
+https://medium.com/on-docker/secrets-and-lie-abilities-the-state-of-modern-secret-management-2017-c82ec9136a3d
+https://blog.csdn.net/phantom_111/article/details/72331628
+http://chrisrc.me/2017/02/19/configuration-management-on-dcos-vault/
+
+## Go - 
+https://gin-gonic.github.io/gin/
+https://medium.com/@thedevsaddam/build-restful-api-service-in-golang-using-gin-gonic-framework-85b1a6e176f3
+https://www.pluralsight.com/courses/gin-go-web-app-framework
+http://sourabhbajaj.com/mac-setup/Go/README.html
+
+
+
