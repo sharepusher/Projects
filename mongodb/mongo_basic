@@ -7,3 +7,45 @@
    Compression can be set on a per-collection and pre-index basis during collection and index creation.
 
 
+## Reference
+https://www.percona.com/blog/2016/08/12/tuning-linux-for-mongodb/
+
+
+## Tuning
+1) Linux Ulimit
+2) Virtual Memory: "vm.dirty_ratio=15";"vm.dirty_background_ratio=5";
+   DirtyRatio: the "dirty_ratio" is the percentage of total system memory that can hold dirty pages.
+   The default on most linux hosts is between 20-30%.
+   When you exceed the limit the dirty pages are commited to disk, creating a small pause.
+   To avoid this hard pause there is a second ratio: "dirty_background_ratio"(default 10-15%) which 
+   tells the kernel to start flushing dirty pages to disk in the background without any pause.
+   
+   20-30% is a good general default, but on large-memory database servers this can be a lot of memory.
+   it is recommended that lower this setting and monitor the impact to query performance and disk IO.
+   
+   The goal is reducing memory usage without impacting query performance negatively.
+   Reducing cacheds sizes also guarantees data gets written to disk in smaller batches more frequently,
+   which increases disk throughput ( than huge bulk writes less often)
+
+   A recommended setting for dirty ratios on large-memory(64GB+) database servers is "vm.dirty_ratio=15"
+   and "vm.dirty_background_ratio=5", or possibly less.(Red Hat recommends lower ratios of 10 and 3 for high-performance
+   or large memory servers.)
+
+3) Swappiness 1
+   Swappiness is a linux kernel setting that influences the behavior of the virtual memory manager when it needs to allocate 
+   a swap, raning from 0-100.
+   A setting of "0" tells the kernel to swap only to avoid out-of-memory problem. 
+   A setting of 100 tells it swap aggressively to disk. The linux default is usually 60( or 0 for some cloud vm), which is not
+   ideal for database usage.
+   It is common to see setting of "0"/or sometimes "10" on database servers, telling the kernel to prefer to swap to memory
+   for better response times. 
+   However, due to a kernel bug, recommended 1.
+
+4) Transparent HugePages
+Disabled THP entirely by adding the following flag below to your Linux kernel boot options:
+
+transparent_hugepage=never
+
+5) Read-Ahead 32 sectors (=16KB) 
+
+
