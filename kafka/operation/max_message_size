@@ -1,0 +1,26 @@
+## Default message.max.bytes
+The kafka broker limits the maximum of a message that can be produced,
+configured by the message.max.bytes parameter, which defaults to 100,0000, or 1 MB.
+
+A producer that tries to send a message larger than this will receive an error back rom the broker,
+and the message will not be accepted.
+
+As with all byte sizes specified on the broker, this configuration deals with compressed message size,
+which means that producers can send messages that are much larger than this value uncompressed,
+provided they compress to under the configured message.max.bytes size.
+
+## Impact
+There are noticeable performance impacts from increasing the allowable message size.
+Larger messages will mean that the broker threads that deal with processing network connections and requests will
+be working longer on each request. Larger messages also increase the size of disk writes, which will impact I/O throughput.
+
+## Warning
+The message size configured on the Kafka broker must be coordinated with the 'fetch.message.max.bytes' configuration
+on consumer clients. If this value is smaller than 'message.max.bytes', then consumers that encounter larger messages 
+will fail to fetch those messages, resulting in a situation where the consumer gets stuck and cannot proceed.
+The same rule applies to the replica.fetch.max.bytes configuration on the brokers when configured in a cluster.
+
+## Solution
+the default 'message.max.bytes' is 100,0000 bytes(1MB), the 'replica.fetch.max.bytes' of cluster and the 'fetch.message.max.bytes' should be configured together with 'message.max.bytes', and larger than 'message.max.bytes'. 
+
+
