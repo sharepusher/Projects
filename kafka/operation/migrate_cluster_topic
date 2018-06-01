@@ -1,0 +1,114 @@
+## Reference
+https://qgraph.io/blog/migrating-kafka-zookeeper-cluster/
+http://kafka.apache.org/documentation/
+
+
+## Requirements
+Migrating ZooKeeper + Kafka to a different set of machines without impacting the users of the cluster is like changing the engine of an in-flight aeroplane.
+
+
+## Solution
+ADDING A NEW MACHINE TO THE CLUSTER AND MIGRATE TOPIC TO NEW ONES
+
+
+Automatically migrating data to new machines
+
+The partition reassignment tool can be used to move some topics off of the current set of brokers to the newly added brokers. This is typically useful while expanding an existing cluster since it is easier to move entire topics to the new set of brokers, than moving one partition at a time. When used to do this, the user should provide a list of topics that should be moved to the new set of brokers and a target list of new brokers. The tool then evenly distributes all partitions for the given list of topics across the new set of brokers. During this move, the replication factor of the topic is kept constant. Effectively the replicas for all partitions for the input list of topics are moved from the old set of brokers to the newly added brokers.
+For instance, the following example will move all partitions for topics foo1,foo2 to the new set of brokers 5,6. At the end of this move, all partitions for topics foo1 and foo2 will only exist on brokers 5,6.
+
+Since the tool accepts the input list of topics as a json file, you first need to identify the topics you want to move and create the json file as follows:
+
+> cat topics-to-move.json
+{"topics": [{"topic": "foo1"},
+            {"topic": "foo2"}],
+"version":1
+}
+Once the json file is ready, use the partition reassignment tool to generate a candidate assignment:
+> bin/kafka-reassign-partitions.sh --zookeeper localhost:2181 --topics-to-move-json-file topics-to-move.json --broker-list "5,6" --generate
+Current partition replica assignment
+
+{"version":1,
+"partitions":[{"topic":"foo1","partition":2,"replicas":[1,2]},
+              {"topic":"foo1","partition":0,"replicas":[3,4]},
+              {"topic":"foo2","partition":2,"replicas":[1,2]},
+              {"topic":"foo2","partition":0,"replicas":[3,4]},
+              {"topic":"foo1","partition":1,"replicas":[2,3]},
+              {"topic":"foo2","partition":1,"replicas":[2,3]}]
+}
+
+Proposed partition reassignment configuration
+
+{"version":1,
+"partitions":[{"topic":"foo1","partition":2,"replicas":[5,6]},
+              {"topic":"foo1","partition":0,"replicas":[5,6]},
+              {"topic":"foo2","partition":2,"replicas":[5,6]},
+              {"topic":"foo2","partition":0,"replicas":[5,6]},
+              {"topic":"foo1","partition":1,"replicas":[5,6]},
+              {"topic":"foo2","partition":1,"replicas":[5,6]}]
+}
+The tool generates a candidate assignment that will move all partitions from topics foo1,foo2 to brokers 5,6. Note, however, that at this point, the partition movement has not started, it merely tells you the current assignment and the proposed new assignment. The current assignment should be saved in case you want to rollback to it. The new assignment should be saved in a json file (e.g. expand-cluster-reassignment.json) to be input to the tool with the --execute option as follows:
+
+> bin/kafka-reassign-partitions.sh --zookeeper localhost:2181 --reassignment-json-file expand-cluster-reassignment.json --execute
+Current partition replica assignment
+
+{"version":1,
+"partitions":[{"topic":"foo1","partition":2,"replicas":[1,2]},
+              {"topic":"foo1","partition":0,"replicas":[3,4]},
+              {"topic":"foo2","partition":2,"replicas":[1,2]},
+              {"topic":"foo2","partition":0,"replicas":[3,4]},
+              {"topic":"foo1","partition":1,"replicas":[2,3]},
+              {"topic":"foo2","partition":1,"replicas":[2,3]}]
+}
+
+Save this to use as the --reassignment-json-file option during rollback
+Successfully started reassignment of partitions
+{"version":1,
+"partitions":[{"topic":"foo1","partition":2,"replicas":[5,6]},
+              {"topic":"foo1","partition":0,"replicas":[5,6]},
+              {"topic":"foo2","partition":2,"replicas":[5,6]},
+              {"topic":"foo2","partition":0,"replicas":[5,6]},
+              {"topic":"foo1","partition":1,"replicas":[5,6]},
+              {"topic":"foo2","partition":1,"replicas":[5,6]}]
+}
+Finally, the --verify option can be used with the tool to check the status of the partition reassignment. Note that the same expand-cluster-reassignment.json (used with the --execute option) should be used with the --verify option:
+
+> bin/kafka-reassign-partitions.sh --zookeeper localhost:2181 --reassignment-json-file expand-cluster-reassignment.json --verify
+Status of partition reassignment:
+Reassignment of partition [foo1,0] completed successfully
+Reassignment of partition [foo1,1] is in progress
+Reassignment of partition [foo1,2] is in progress
+Reassignment of partition [foo2,0] completed successfully
+Reassignment of partition [foo2,1] completed successfully
+Reassignment of partition [foo2,2] completed successfully
+Custom partition assignment and migration
+
+The partition reassignment tool can also be used to selectively move replicas of a partition to a specific set of brokers. When used in this manner, it is assumed that the user knows the reassignment plan and does not require the tool to generate a candidate reassignment, effectively skipping the --generate step and moving straight to the --execute step
+For instance, the following example moves partition 0 of topic foo1 to brokers 5,6 and partition 1 of topic foo2 to brokers 2,3:
+
+The first step is to hand craft the custom reassignment plan in a json file:
+
+> cat custom-reassignment.json
+{"version":1,"partitions":[{"topic":"foo1","partition":0,"replicas":[5,6]},{"topic":"foo2","partition":1,"replicas":[2,3]}]}
+Then, use the json file with the --execute option to start the reassignment process:
+> bin/kafka-reassign-partitions.sh --zookeeper localhost:2181 --reassignment-json-file custom-reassignment.json --execute
+Current partition replica assignment
+
+{"version":1,
+"partitions":[{"topic":"foo1","partition":0,"replicas":[1,2]},
+              {"topic":"foo2","partition":1,"replicas":[3,4]}]
+}
+
+Save this to use as the --reassignment-json-file option during rollback
+Successfully started reassignment of partitions
+{"version":1,
+"partitions":[{"topic":"foo1","partition":0,"replicas":[5,6]},
+              {"topic":"foo2","partition":1,"replicas":[2,3]}]
+}
+The --verify option can be used with the tool to check the status of the partition reassignment. Note that the same expand-cluster-reassignment.json (used with the --execute option) should be used with the --verify option:
+
+> bin/kafka-reassign-partitions.sh --zookeeper localhost:2181 --reassignment-json-file custom-reassignment.json --verify
+Status of partition reassignment:
+Reassignment of partition [foo1,0] completed successfully
+Reassignment of partition [foo2,1] completed successfully
+
+
