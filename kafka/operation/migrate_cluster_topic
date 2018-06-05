@@ -111,4 +111,4 @@ Status of partition reassignment:
 Reassignment of partition [foo1,0] completed successfully
 Reassignment of partition [foo2,1] completed successfully
 
-
+__consumer_offset__ can only be migrate alone, other topic can migrate together.
